@@ -1,0 +1,83 @@
+{
+	"TileSize": 0.5,
+	"TilePadding": 0.05,
+	"DefaultTileColor": "808080",
+	"Tiles": [
+		{
+			"Index": 0,
+			"ClickedColor": "CB7B5C"
+		},
+		{
+			"Index": 1,
+			"ClickedColor": "D40D3C"
+		},
+		{
+			"Index": 2,
+			"ClickedColor": "702B2D"
+		},
+		{
+			"Index": 3,
+			"ClickedColor": "DA485C"
+		},
+		{
+			"Index": 4,
+			"ClickedColor": "B93F17"
+		},
+		{
+			"Index": 5,
+			"ClickedColor": "7590BA"
+		},
+		{
+			"Index": 6,
+			"ClickedColor": "362A29"
+		},
+		{
+			"Index": 7,
+			"ClickedColor": "2E3B3D"
+		},
+		{
+			"Index": 8,
+			"ClickedColor": "4A4F6B"
+		},
+		{
+			"Index": 9,
+			"ClickedColor": "515653"
+		},
+		{
+			"Index": 10,
+			"ClickedColor": "35555D"
+		},
+		{
+			"Index": 11,
+			"ClickedColor": "AAEC52"
+		},
+		{
+			"Index": 12,
+			"ClickedColor": "5950A9"
+		},
+		{
+			"Index": 13,
+			"ClickedColor": "E08493"
+		},
+		{
+			"Index": 14,
+			"ClickedColor": "39A3C8"
+		},
+		{
+			"Index": 15,
+			"ClickedColor": "6302AD"
+		},
+		{
+			"Index": 16,
+			"ClickedColor": "F2DAE4"
+		},
+		{
+			"Index": 17,
+			"ClickedColor": "AF9D8F"
+		},
+		{
+			"Index": 18,
+			"ClickedColor": "635B68"
+		}
+	]
+}
