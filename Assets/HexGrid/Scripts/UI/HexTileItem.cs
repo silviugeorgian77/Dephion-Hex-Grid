@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class HexTileItem : MonoBehaviour
 {
@@ -7,19 +8,32 @@ public class HexTileItem : MonoBehaviour
     private MeshRenderer meshRenderer;
 
     [SerializeField]
+    private Touchable touchable;
+
+    [SerializeField]
     private TMP_Text debugIndexText;
 
-    private float size;
-    private HexTile hexTile;
+    public HexTile HexTile { get; private set; }
+    public HexTileInfo HexTileInfo { get; private set; }
 
-    public void Bind(HexTile hexTile, float size, int index)
+    private float size;
+
+    public void Bind(
+        HexTile hexTile,
+        HexTileInfo hexTileInfo,
+        float size,
+        Action<HexTileInfo> onClickAction)
     {
-        transform.rotation = Quaternion.identity;
-        debugIndexText.text = index.ToString();
-        this.hexTile = hexTile;
+        HexTile = hexTile;
+        HexTileInfo = hexTileInfo;
         this.size = size;
         ChangeScale();
         ChangeColor();
+        touchable.OnClickEndedInsideCallBack = (touchable) =>
+        {
+            onClickAction?.Invoke(HexTileInfo);
+        };
+        debugIndexText.text = hexTileInfo.index.ToString();
     }
 
     private void ChangeScale()

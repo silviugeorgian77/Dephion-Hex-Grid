@@ -182,6 +182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2940579505414258027}
   - component: {fileID: 1560999867080025904}
+  - component: {fileID: 5465195358903603271}
   m_Layer: 0
   m_Name: HexTileItem
   m_TagString: Untagged
@@ -219,7 +220,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 3247782983884483156}
+  touchable: {fileID: 5465195358903603271}
   debugIndexText: {fileID: 8320525484268007897}
+--- !u!114 &5465195358903603271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6751918873186744935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 079b54817daa544bcb28a0180233c7f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
+  tmpText: {fileID: 0}
+  objCollider: {fileID: 6231869530752485633}
+  objCollider2D: {fileID: 0}
+  referenceCamera: {fileID: 0}
+  autoAssignReferences: 0
+  inputEnabled: 1
+  autoComputeMouseWorldPosition: 0
+  requireClickInside: 1
+  followMouse: 0
+  followMouseRestriced: 0
+  minXFollow: 0
+  minYFollow: 0
+  maxXFollow: 0
+  maxYFollow: 0
 --- !u!1001 &4238983236012521168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -295,6 +324,26 @@ MeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 4238983236012521168}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3896331773177596801 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a0f5da09747be4ca5805df5573f92f80,
+    type: 3}
+  m_PrefabInstance: {fileID: 4238983236012521168}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &6231869530752485633
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3896331773177596801}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8382481362704644414, guid: a0f5da09747be4ca5805df5573f92f80, type: 3}
 --- !u!4 &4420667546477383995 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a0f5da09747be4ca5805df5573f92f80,
