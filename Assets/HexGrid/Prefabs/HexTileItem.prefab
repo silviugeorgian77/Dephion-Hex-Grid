@@ -183,6 +183,8 @@ GameObject:
   - component: {fileID: 2940579505414258027}
   - component: {fileID: 1560999867080025904}
   - component: {fileID: 5465195358903603271}
+  - component: {fileID: 7147704295029877081}
+  - component: {fileID: 2035007656149486067}
   m_Layer: 0
   m_Name: HexTileItem
   m_TagString: Untagged
@@ -221,6 +223,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 3247782983884483156}
   touchable: {fileID: 5465195358903603271}
+  moveable: {fileID: 7147704295029877081}
+  rotatable: {fileID: 2035007656149486067}
   debugIndexText: {fileID: 8320525484268007897}
 --- !u!114 &5465195358903603271
 MonoBehaviour:
@@ -249,6 +253,32 @@ MonoBehaviour:
   minYFollow: 0
   maxXFollow: 0
   maxYFollow: 0
+--- !u!114 &7147704295029877081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6751918873186744935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca14f0513b5174b4c91a81c0d7607525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  durationMove: 0
+--- !u!114 &2035007656149486067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6751918873186744935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd4a6794ba57437280f893ce6e6e8dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  durationRotation: 0
 --- !u!1001 &4238983236012521168
 PrefabInstance:
   m_ObjectHideFlags: 0

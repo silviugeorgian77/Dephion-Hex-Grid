@@ -382,7 +382,7 @@ public class Touchable : MonoBehaviour
 
         foreach (var mouseHit in mouseHits)
         {
-            if (mouseHit.collider.name == objCollider.name)
+            if (mouseHit.collider == objCollider)
             {
                 //Convert mouse position
                 Vector3 mousePoint = Input.mousePosition;

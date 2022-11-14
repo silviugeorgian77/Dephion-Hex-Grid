@@ -10,6 +10,7 @@ public class HexGridDisplayer : MonoBehaviour
     public GameObject hexTilePrefab;
 
     private HexGrid hexGrid;
+    private Color defaultTileColor;
 
     private List<HexTileInfo> hexTileInfos = new List<HexTileInfo>();
     private List<HexTileItem> hexTileItems = new List<HexTileItem>();
@@ -17,6 +18,9 @@ public class HexGridDisplayer : MonoBehaviour
     public void Bind(HexGrid hexGrid)
     {
         this.hexGrid = hexGrid;
+
+        defaultTileColor
+            = ColorUtils.GetColorFromHex(hexGrid.defaultTileColor);
 
         // For testing
         //hexGrid.tiles.AddRange(hexGrid.tiles);
@@ -28,8 +32,13 @@ public class HexGridDisplayer : MonoBehaviour
         hexTileInfos = builder.HexTileInfos;
         //DisplayHexGrid();
 
-        CreateHexTileItem(0);
-        CreateHexTileItem(1);
+        var a = CreateHexTileItem(0);
+        a.transform.position = Vector3.left * 2;
+        hexTileItems.Add(a);
+        var b = CreateHexTileItem(1);
+        hexTileItems.Add(b);
+        b.transform.position = Vector3.right * 2;
+
     }
 
     private void ClearHexGrid()
@@ -117,20 +126,33 @@ public class HexGridDisplayer : MonoBehaviour
         int index)
     {
         var hexTile = hexGrid.tiles[index];
-        var hexTileInfo = new HexTileInfo();
+        var hexTileInfo = new HexTileInfo() { index = index };
         var hexTileObject = Instantiate(hexTilePrefab, transform);
         var hexTileItem = hexTileObject.GetComponent<HexTileItem>();
         hexTileItem.Bind(
             hexTile,
             hexTileInfo,
+            defaultTileColor,
             hexGrid.tileSize,
             OnHexTileClicked
         );
         return hexTileItem;
     }
 
-    private void OnHexTileClicked(HexTileInfo hexTileInfo)
+    private void OnHexTileClicked(HexTileItem hexTileItem)
     {
-        Debug.Log("Clicked: " + hexTileInfo.index);
+        Debug.Log("OnHexTileClicked");
+        foreach (var currentHexTileItem in hexTileItems)
+        {
+            if (currentHexTileItem == hexTileItem)
+            {
+                Debug.Log(currentHexTileItem.HexTileInfo.index);
+                currentHexTileItem.ToggleSelected();
+            }
+            else
+            {
+                currentHexTileItem.Deselect();
+            }
+        }
     }
 }

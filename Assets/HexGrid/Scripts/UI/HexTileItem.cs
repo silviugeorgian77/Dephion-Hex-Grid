@@ -11,27 +11,54 @@ public class HexTileItem : MonoBehaviour
     private Touchable touchable;
 
     [SerializeField]
+    private Moveable moveable;
+
+    [SerializeField]
+    private Rotatable rotatable;
+
+    [SerializeField]
     private TMP_Text debugIndexText;
 
     public HexTile HexTile { get; private set; }
     public HexTileInfo HexTileInfo { get; private set; }
 
+    private Color defaultColor;
+    private Color selectedColor;
     private float size;
+    private float initY;
+    private float initRotationY;
+    private bool isSelected;
+
+    private const float SELECT_MOVE_DELTA_Y = 1f;
+    private const float SELECT_MOVE_DURATION = .5f;
+    private const float SELECTED_MOVE_DELTA_Y = .3f;
+    private const float SELECTED_MOVE_DURATION = 1f;
+    private const float DESELECT_ROTATION_DURATION = .5f;
+    private const float SELECTED_ROTATION_DURATION = 4f;
+
+    private void Awake()
+    {
+        initY = transform.localPosition.y;
+        initRotationY = transform.localRotation.y;
+    }
 
     public void Bind(
         HexTile hexTile,
         HexTileInfo hexTileInfo,
+        Color defaultColor,
         float size,
-        Action<HexTileInfo> onClickAction)
+        Action<HexTileItem> onClickAction)
     {
         HexTile = hexTile;
         HexTileInfo = hexTileInfo;
+        this.defaultColor = defaultColor;
+        selectedColor = ColorUtils.GetColorFromHex(hexTile.clickedColor);
         this.size = size;
         ChangeScale();
-        ChangeColor();
+        ChangeColor(defaultColor);
         touchable.OnClickEndedInsideCallBack = (touchable) =>
         {
-            onClickAction?.Invoke(HexTileInfo);
+            onClickAction?.Invoke(this);
         };
         debugIndexText.text = hexTileInfo.index.ToString();
     }
@@ -42,8 +69,96 @@ public class HexTileItem : MonoBehaviour
         transform.localScale = new Vector3(scale, scale, scale);
     }
 
-    private void ChangeColor()
+    private void ChangeColor(Color color)
     {
-        meshRenderer.sharedMaterial.color = Color.red;
+        foreach (var material in meshRenderer.sharedMaterials)
+        {
+            material.color = color;
+        }
+    }
+
+    public void ToggleSelected()
+    {
+        if (isSelected)
+        {
+            Deselect();
+        }
+        else
+        {
+            Select();
+        }
+    }
+
+    public void Select()
+    {
+        isSelected = true;
+        moveable.MoveY(
+            initY + SELECT_MOVE_DELTA_Y,
+            SELECT_MOVE_DURATION,
+            TransformScope.LOCAL,
+            EaseEquations.easeOut,
+            () =>
+            {
+                FloatDown();
+            }
+        );
+        Spin();
+        ChangeColor(selectedColor);
+    }
+
+    private void FloatDown()
+    {
+        moveable.MoveY(
+            transform.position.y - SELECTED_MOVE_DELTA_Y,
+            SELECTED_MOVE_DURATION,
+            TransformScope.LOCAL,
+            EaseEquations.easeIn,
+            () =>
+            {
+                FloatUp();
+            }
+        );
+    }
+
+    private void FloatUp()
+    {
+        moveable.MoveY(
+            transform.position.y + SELECTED_MOVE_DELTA_Y,
+            SELECTED_MOVE_DURATION,
+            TransformScope.LOCAL,
+            EaseEquations.easeOut,
+            () =>
+            {
+                FloatDown();
+            }
+        );
+    }
+
+    private void Spin()
+    {
+        rotatable.RotateByY(
+            360,
+            SELECTED_ROTATION_DURATION,
+            EndCallBack: () =>
+            {
+                Spin();
+            }
+        );
+    }
+
+    public void Deselect()
+    {
+        isSelected = false;
+        moveable.MoveY(
+            initY,
+            SELECT_MOVE_DURATION,
+            TransformScope.LOCAL,
+            EaseEquations.easeIn
+        );
+        rotatable.RotateToY(
+            initRotationY,
+            DESELECT_ROTATION_DURATION
+        );
+        ChangeColor(defaultColor);
     }
 }
