@@ -132,6 +132,11 @@ public class HexTileItem : MonoBehaviour
 
     public void Select()
     {
+        if (isSelected)
+        {
+            return;
+        }
+
         isSelected = true;
         moveable.MoveY(
             initY + SELECT_MOVE_DELTA_Y,
@@ -191,6 +196,11 @@ public class HexTileItem : MonoBehaviour
 
     public void Deselect()
     {
+        if (!isSelected)
+        {
+            return;
+        }
+
         isSelected = false;
         moveable.MoveY(
             initY,
