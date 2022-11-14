@@ -12,15 +12,18 @@ public class HexGridDisplayer : MonoBehaviour
 
     private HexGrid hexGrid;
     private Color defaultTileColor;
+    private bool inputEnabled;
 
     private List<HexTileInfo> hexTileInfos = new List<HexTileInfo>();
     private List<HexTileItem> hexTileItems = new List<HexTileItem>();
 
     private const int APPEAR_DELAY_PER_TILE_MS = 50;
 
-    public void Bind(HexGrid hexGrid)
+    public async void Bind(HexGrid hexGrid)
     {
         this.hexGrid = hexGrid;
+
+        inputEnabled = false;
 
         defaultTileColor
             = ColorUtils.GetColorFromHex(hexGrid.defaultTileColor);
@@ -39,7 +42,9 @@ public class HexGridDisplayer : MonoBehaviour
         hexTileInfos = builder.HexTileInfos;
 
         CreateHexGrid();
-        DisplayHexGrid();
+
+        await DisplayHexGrid();
+        inputEnabled = true;
     }
 
     private void ClearHexGrid()
@@ -84,6 +89,11 @@ public class HexGridDisplayer : MonoBehaviour
 
     private void OnHexTileClicked(HexTileItem hexTileItem)
     {
+        if (!inputEnabled)
+        {
+            return;
+        }
+
         foreach (var currentHexTileItem in hexTileItems)
         {
             if (currentHexTileItem == hexTileItem)
@@ -97,7 +107,7 @@ public class HexGridDisplayer : MonoBehaviour
         }
     }
 
-    private async void DisplayHexGrid()
+    private async Task DisplayHexGrid()
     {
         foreach (var currentHexTileItem in hexTileItems)
         {
