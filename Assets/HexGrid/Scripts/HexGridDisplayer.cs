@@ -64,7 +64,7 @@ public class HexGridDisplayer : MonoBehaviour
         HexTileItem hexTileItem;
         for (var i = 0; i < hexTileInfos.Count; i++)
         {
-            hexTile = hexGrid.tiles[0];
+            hexTile = hexGrid.tiles[i];
             hexTileInfo = hexTileInfos[i];
             hexTileItem = CreateHexTileItem(hexTile, hexTileInfo);
             hexTileItems.Add(hexTileItem);
