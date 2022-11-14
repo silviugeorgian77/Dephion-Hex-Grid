@@ -11,11 +11,14 @@ public class HexGridBuilder
         = new List<HexTileInfo>();
 
 
+    private int count;
     private float hexRadius;
     private float padding;
+    private int index1d;
 
     public HexGridBuilder(int count, float hexRadius, float padding)
     {
+        this.count = count;
         this.hexRadius = hexRadius;
         this.padding = padding;
         GenerateHexGrid(count, hexRadius, padding);
@@ -35,7 +38,6 @@ public class HexGridBuilder
 
         var x = 0;
         var y = 0;
-        var index1d = 0;
 
         var hexTileInfo = CreateHexTileInfo(x, y, index1d);
         HexTileInfos.Add(hexTileInfo);
@@ -50,69 +52,57 @@ public class HexGridBuilder
         {
             for (int k = 0; k < ringIndex; k++)
             {
-                if (index1d >= count - 1)
+                if (HasAddedAllHexTileInfos())
                 {
                     break;
                 }
                 // Move up
-                index1d++;
-                hexTileInfo = CreateHexTileInfo(x, ++y, index1d);
-                HexTileInfos.Add(hexTileInfo);
+                AddNewHexTileInfo(x, ++y);
             }
             for (int k = 0; k < ringIndex; k++)
             {
-                if (index1d >= count - 1)
+                if (HasAddedAllHexTileInfos())
                 {
                     break;
                 }
                 // Move down right
-                index1d++;
-                hexTileInfo = CreateHexTileInfo(++x, --y, index1d);
-                HexTileInfos.Add(hexTileInfo);
+                AddNewHexTileInfo(++x, --y);
             }
             for (int k = 0; k < ringIndex; k++)
             {
-                if (index1d >= count - 1)
+                if (HasAddedAllHexTileInfos())
                 {
                     break;
                 }
                 // Move down
-                index1d++;
-                hexTileInfo = CreateHexTileInfo(x, --y, index1d);
-                HexTileInfos.Add(hexTileInfo);
+                AddNewHexTileInfo(x, --y);
             }
             for (int k = 0; k < ringIndex; k++)
             {
-                if (index1d >= count - 1)
+                if (HasAddedAllHexTileInfos())
                 {
                     break;
                 }
                 // Move left
-                index1d++;
-                hexTileInfo = CreateHexTileInfo(--x, y, index1d);
-                HexTileInfos.Add(hexTileInfo);
+                AddNewHexTileInfo(--x, y);
             }
             for (int k = 0; k < ringIndex; k++)
             {
-                if (index1d >= count - 1)
+                if (HasAddedAllHexTileInfos())
                 {
                     break;
                 }
                 // Move up left
-                index1d++;
-                hexTileInfo = CreateHexTileInfo(--x, ++y, index1d);
-                HexTileInfos.Add(hexTileInfo);
+                AddNewHexTileInfo(--x, ++y);
             }
             for (int k = 0; k < ringIndex; k++)
             {
-                if (index1d >= count - 1)
+                if (HasAddedAllHexTileInfos())
                 {
                     break;
                 }
                 // Move up
-                index1d++;
-                hexTileInfo = CreateHexTileInfo(x, ++y, index1d);
-                HexTileInfos.Add(hexTileInfo);
+                AddNewHexTileInfo(x, ++y);
             }
             ringIndex++;
         }
@@ -129,5 +119,17 @@ public class HexGridBuilder
             (hexRadius + padding) * Mathf.Sqrt(3f) * (y + x / 2f)
         );
         return hexTileInfo;
+    }
+
+    private void AddNewHexTileInfo(int x, int y)
+    {
+        index1d++;
+        var hexTileInfo = CreateHexTileInfo(x, y, index1d);
+        HexTileInfos.Add(hexTileInfo);
+    }
+
+    private bool HasAddedAllHexTileInfos()
+    {
+        return index1d >= count - 1;
     }
 }
