@@ -2,10 +2,12 @@
 
 ## Acceptance Criteria
 - The hexagons should be implemented in 3D
-- The hexagon grid data should be retrieved from the backend specified endpoint o The whole data flow from backend retrieval to the actual visual implementation
+- The hexagon grid data should be retrieved from the backend specified endpoint 
+- The whole data flow from backend retrieval to the actual visual implementation
 should be done according to your best knowledge of OOP and design pattern
 strategies
-- The hexagon grid should be drawn according to the backend data specification o Clicking one of the drawn hexagons, should raise the hexagon tile in a smooth way and change the hexagon tile’s colour
+- The hexagon grid should be drawn according to the backend data specification 
+- Clicking one of the drawn hexagons, should raise the hexagon tile in a smooth way and change the hexagon tile’s colour
 - Changing the tile’s colour, should happen in a smooth transition from the current colour to the new one
 - Clicking on a hexagon tile will lower all other tiles to their original height
 - The main camera view should be from an angled perspective over the 3D
