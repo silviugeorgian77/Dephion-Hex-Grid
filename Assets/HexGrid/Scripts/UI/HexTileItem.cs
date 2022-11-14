@@ -27,6 +27,7 @@ public class HexTileItem : MonoBehaviour
 
     private Color defaultColor;
     private Color selectedColor;
+    private Color oldColor;
     private Color activeColor;
     private float activeColorTimeS;
     private float size;
@@ -143,6 +144,7 @@ public class HexTileItem : MonoBehaviour
             }
         );
         Spin();
+        oldColor = meshRenderer.material.color;
         activeColor = selectedColor;
         activeColorTimeS = 0;
     }
@@ -200,6 +202,7 @@ public class HexTileItem : MonoBehaviour
             initRotationY,
             DESELECT_ROTATION_DURATION
         );
+        oldColor = meshRenderer.material.color;
         activeColor = defaultColor;
         activeColorTimeS = 0;
     }
@@ -210,7 +213,7 @@ public class HexTileItem : MonoBehaviour
         {
             activeColorTimeS += Time.deltaTime;
             var color = Color.Lerp(
-                meshRenderer.material.color,
+                oldColor,
                 activeColor,
                 activeColorTimeS / COLOR_CHANGE_DURATION
             );
