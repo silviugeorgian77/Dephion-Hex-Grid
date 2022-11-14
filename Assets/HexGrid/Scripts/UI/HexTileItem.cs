@@ -17,6 +17,9 @@ public class HexTileItem : MonoBehaviour
     private Rotatable rotatable;
 
     [SerializeField]
+    private AlphaModifier alphaModifier;
+
+    [SerializeField]
     private TMP_Text debugIndexText;
 
     public HexTile HexTile { get; private set; }
@@ -29,16 +32,24 @@ public class HexTileItem : MonoBehaviour
     private float initRotationY;
     private bool isSelected;
 
+    private const float APPEAR_MOVE_DELTA_Y = -10f;
+    private const float APPEAR_MOVE_DURATION = .2f;
     private const float SELECT_MOVE_DELTA_Y = 1f;
     private const float SELECT_MOVE_DURATION = .5f;
     private const float SELECTED_MOVE_DELTA_Y = .3f;
     private const float SELECTED_MOVE_DURATION = 1f;
     private const float DESELECT_ROTATION_DURATION = .5f;
     private const float SELECTED_ROTATION_DURATION = 4f;
+    private const float MIN_ALPHA = 0f;
+    private const float MAX_ALPHA = 0f;
+    private const float FADE_IN_DURATION = .2f;
 
     private void Awake()
     {
         initRotationY = transform.localRotation.y;
+        initY = transform.localPosition.y;
+
+        Hide();
     }
 
     public void Bind(
@@ -76,6 +87,30 @@ public class HexTileItem : MonoBehaviour
         {
             material.color = color;
         }
+    }
+
+    public void Appear()
+    {
+        if (HexTileInfo != null)
+        {
+            transform.localPosition = HexTileInfo.position;
+        }
+
+        Hide();
+
+        alphaModifier.AlphaTo(MAX_ALPHA, FADE_IN_DURATION);
+        moveable.MoveY(
+            initY,
+            APPEAR_MOVE_DURATION,
+            TransformScope.LOCAL,
+            EaseEquations.easeOutCubic
+        );
+    }
+
+    public void Hide()
+    {
+        alphaModifier.AlphaTo(MIN_ALPHA, 0);
+        moveable.MoveY(initY + APPEAR_MOVE_DELTA_Y, 0, TransformScope.LOCAL);
     }
 
     public void ToggleSelected()

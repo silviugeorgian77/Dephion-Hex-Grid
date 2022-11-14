@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,6 +15,8 @@ public class HexGridDisplayer : MonoBehaviour
 
     private List<HexTileInfo> hexTileInfos = new List<HexTileInfo>();
     private List<HexTileItem> hexTileItems = new List<HexTileItem>();
+
+    private const int APPEAR_DELAY_PER_TILE_MS = 50;
 
     public void Bind(HexGrid hexGrid)
     {
@@ -35,6 +38,7 @@ public class HexGridDisplayer : MonoBehaviour
         );
         hexTileInfos = builder.HexTileInfos;
 
+        CreateHexGrid();
         DisplayHexGrid();
     }
 
@@ -48,7 +52,7 @@ public class HexGridDisplayer : MonoBehaviour
         hexTileInfos.Clear();
     }
 
-    private void DisplayHexGrid()
+    private void CreateHexGrid()
     {
         HexTile hexTile;
         HexTileInfo hexTileInfo;
@@ -92,6 +96,15 @@ public class HexGridDisplayer : MonoBehaviour
             {
                 currentHexTileItem.Deselect();
             }
+        }
+    }
+
+    private async void DisplayHexGrid()
+    {
+        foreach (var currentHexTileItem in hexTileItems)
+        {
+            currentHexTileItem.Appear();
+            await Task.Delay(APPEAR_DELAY_PER_TILE_MS);
         }
     }
 }

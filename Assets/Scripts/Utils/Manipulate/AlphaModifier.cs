@@ -4,9 +4,11 @@ using TMPro;
 public class AlphaModifier : MonoBehaviour
 {
     private bool awakeCalled = false;
-    public SpriteRenderer spriteRenderer { get; set; }
-    public TextMesh textMesh { get; set; }
-    public TMP_Text tmpText { get; set; }
+    public SpriteRenderer spriteRenderer;
+    public MeshRenderer meshRenderer;
+    public TextMesh textMesh;
+    public TMP_Text tmpText;
+    public bool autoAssignReferences = false;
 
     public bool executeInAlphaModifierChildren = true;
 
@@ -24,10 +26,10 @@ public class AlphaModifier : MonoBehaviour
 
     public virtual void Awake()
     {
-        if (!awakeCalled)
+        if (autoAssignReferences)
         {
-            awakeCalled = true;
             spriteRenderer = GetComponent<SpriteRenderer>();
+            meshRenderer = GetComponent<MeshRenderer>();
             textMesh = GetComponent<TextMesh>();
             tmpText = GetComponent<TMP_Text>();
         }
@@ -49,6 +51,17 @@ public class AlphaModifier : MonoBehaviour
                 color.b = spriteRenderer.color.b;
                 color.a = alpha;
                 spriteRenderer.color = color;
+            }
+            if (meshRenderer != null)
+            {
+                foreach (var material in meshRenderer.materials)
+                {
+                    color.r = material.color.r;
+                    color.g = material.color.g;
+                    color.b = material.color.b;
+                    color.a = alpha;
+                    material.color = color;
+                }
             }
             else if (textMesh != null)
             {
@@ -77,6 +90,10 @@ public class AlphaModifier : MonoBehaviour
         if (spriteRenderer != null)
         {
             startAlpha = spriteRenderer.color.a;
+        }
+        else if (meshRenderer != null)
+        {
+            startAlpha = meshRenderer.material.color.a;
         }
         else if (textMesh != null)
         {
@@ -116,6 +133,17 @@ public class AlphaModifier : MonoBehaviour
                 color.a = currentAlpha;
                 spriteRenderer.color = color;
             }
+            else if (meshRenderer != null)
+            {
+                foreach (var material in meshRenderer.materials)
+                {
+                    color.r = material.color.r;
+                    color.g = material.color.g;
+                    color.b = material.color.b;
+                    color.a = currentAlpha;
+                    material.color = color;
+                }
+            }
             else if (textMesh != null)
             {
                 color.r = textMesh.color.r;
@@ -142,6 +170,17 @@ public class AlphaModifier : MonoBehaviour
                     color.b = spriteRenderer.color.b;
                     color.a = finalAlpha;
                     spriteRenderer.color = color;
+                }
+                else if (meshRenderer != null)
+                {
+                    foreach (var material in meshRenderer.materials)
+                    {
+                        color.r = material.color.r;
+                        color.g = material.color.g;
+                        color.b = material.color.b;
+                        color.a = finalAlpha;
+                        material.color = color;
+                    }
                 }
                 else if (textMesh != null)
                 {
