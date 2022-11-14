@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class HexGridOnlineDataService : IHexGridOnlineDataProvider
 {
-    private const string END_POINT = "https://drive.google.com/uc?export=download&id=1MVuV4f8KKGW-zmYJK6sIlaKLy95nm-rC";
+    private const string END_POINT = "https://habticgeneral.blob.core.windows.net/public/dev-cases/hexagonGrid.json";
 
     private WebClient webClient = new WebClient(new JsonSerializationOption());
 
