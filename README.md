@@ -7,7 +7,8 @@ should be done according to your best knowledge of OOP and design pattern
 strategies
 - The hexagon grid should be drawn according to the backend data specification o Clicking one of the drawn hexagons, should raise the hexagon tile in a smooth way and change the hexagon tile’s colour
 - Changing the tile’s colour, should happen in a smooth transition from the current colour to the new one
-- Clicking on a hexagon tile will lower all other tiles to their original height o The main camera view should be from an angled perspective over the 3D
+- Clicking on a hexagon tile will lower all other tiles to their original height
+- The main camera view should be from an angled perspective over the 3D
 hexagon grid
 
 # Architecture
@@ -19,7 +20,7 @@ hexagon grid
   - Last online data
   - Data that shipped with the app
 When new online data is received, it gets cached. Next time, if no internet, the last available data is used.
-If the app never had internet, when we open it, it uses by default the pre-shipped data.
+- If the app never had internet, when we open it, it uses by default the pre-shipped data.
 
 ## Hex Grid Manager
 - Can be considered the scene manager.
