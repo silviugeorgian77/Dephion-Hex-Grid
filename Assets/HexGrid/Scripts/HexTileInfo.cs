@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class HexTileInfo
 {
-    public int index;
-    public Dictionary<HexDirection, HexTileInfo> neighbours
-        = new Dictionary<HexDirection, HexTileInfo>();
+    public Vector3 index;
+    public Vector3 position;
 }

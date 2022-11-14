@@ -28,17 +28,14 @@ public class HexGridDisplayer : MonoBehaviour
 
         ClearHexGrid();
 
-        var builder = new HexGridBuilder(hexGrid.tiles.Count);
+        var builder = new HexGridBuilder(
+            (int) Mathf.Sqrt(hexGrid.tiles.Count),
+            hexGrid.tileSize / 2f,
+            hexGrid.tilePadding
+        );
         hexTileInfos = builder.HexTileInfos;
-        //DisplayHexGrid();
 
-        var a = CreateHexTileItem(0);
-        a.transform.position = Vector3.left * 2;
-        hexTileItems.Add(a);
-        var b = CreateHexTileItem(1);
-        hexTileItems.Add(b);
-        b.transform.position = Vector3.right * 2;
-
+        DisplayHexGrid();
     }
 
     private void ClearHexGrid()
@@ -53,80 +50,22 @@ public class HexGridDisplayer : MonoBehaviour
 
     private void DisplayHexGrid()
     {
-        var distance1 = hexGrid.tileSize + hexGrid.tilePadding;
-        var distance2 = distance1;
-        for (int i = 0; i < hexGrid.tiles.Count; i++)
+        HexTile hexTile;
+        HexTileInfo hexTileInfo;
+        HexTileItem hexTileItem;
+        for (var i = 0; i < hexTileInfos.Count; i++)
         {
-            var hexTileItem = CreateHexTileItem(i);
+            hexTile = hexGrid.tiles[0];
+            hexTileInfo = hexTileInfos[i];
+            hexTileItem = CreateHexTileItem(hexTile, hexTileInfo);
             hexTileItems.Add(hexTileItem);
-
-            if (i == 0)
-            {
-                hexTileItem.transform.localPosition = Vector3.zero;
-            }
-            else
-            {
-                Vector3 deltaPosition;
-                var direction
-                    = hexTileItem.HexTileInfo.neighbours.Keys.ElementAt(0);
-                var neighbour = hexTileItem.HexTileInfo.neighbours[direction];
-                switch (direction)
-                {
-                    case HexDirection.TOP:
-                        deltaPosition = new Vector3(
-                            0,
-                            0,
-                            distance1
-                        );
-                        break;
-                    case HexDirection.TOP_RIGHT:
-                        deltaPosition = new Vector3(
-                            distance2,
-                            0,
-                            distance2
-                        );
-                        break;
-                    case HexDirection.BOTTOM_RIGHT:
-                        deltaPosition = new Vector3(
-                            distance2,
-                            0,
-                            -distance2
-                        );
-                        break;
-                    case HexDirection.BOTTOM:
-                        deltaPosition = new Vector3(
-                            0,
-                            0,
-                            -distance2
-                        );
-                        break;
-                    case HexDirection.BOTTOM_LEFT:
-                        deltaPosition = new Vector3(
-                           -distance2,
-                           0,
-                           -distance2
-                        );
-                        break;
-                    default:
-                        deltaPosition = new Vector3(
-                           -distance2,
-                           0,
-                           distance2
-                       );
-                        break;
-                }
-                hexTileItem.transform.localPosition
-                    = hexTileItems[neighbour.index].transform.position
-                    + deltaPosition;
-            }
         }
     }
   
     private HexTileItem CreateHexTileItem(
-        int index)
+        HexTile hexTile,
+        HexTileInfo hexTileInfo)
     {
-        var hexTile = hexGrid.tiles[index];
-        var hexTileInfo = new HexTileInfo() { index = index };
         var hexTileObject = Instantiate(hexTilePrefab, transform);
         var hexTileItem = hexTileObject.GetComponent<HexTileItem>();
         hexTileItem.Bind(
@@ -146,7 +85,7 @@ public class HexGridDisplayer : MonoBehaviour
         {
             if (currentHexTileItem == hexTileItem)
             {
-                Debug.Log(currentHexTileItem.HexTileInfo.index);
+                Debug.Log(currentHexTileItem.HexTileInfo.position);
                 currentHexTileItem.ToggleSelected();
             }
             else

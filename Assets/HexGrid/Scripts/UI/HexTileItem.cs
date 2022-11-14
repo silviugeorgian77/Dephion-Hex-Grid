@@ -38,7 +38,6 @@ public class HexTileItem : MonoBehaviour
 
     private void Awake()
     {
-        initY = transform.localPosition.y;
         initRotationY = transform.localRotation.y;
     }
 
@@ -54,6 +53,8 @@ public class HexTileItem : MonoBehaviour
         this.defaultColor = defaultColor;
         selectedColor = ColorUtils.GetColorFromHex(hexTile.clickedColor);
         this.size = size;
+        transform.localPosition = hexTileInfo.position;
+        initY = transform.localPosition.y;
         ChangeScale();
         ChangeColor(defaultColor);
         touchable.OnClickEndedInsideCallBack = (touchable) =>
