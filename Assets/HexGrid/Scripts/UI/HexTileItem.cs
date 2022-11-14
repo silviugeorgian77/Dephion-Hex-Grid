@@ -71,7 +71,7 @@ public class HexTileItem : MonoBehaviour
 
     private void ChangeColor(Color color)
     {
-        foreach (var material in meshRenderer.sharedMaterials)
+        foreach (var material in meshRenderer.materials)
         {
             material.color = color;
         }
