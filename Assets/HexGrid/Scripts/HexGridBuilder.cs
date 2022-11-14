@@ -51,6 +51,9 @@ public class HexGridBuilder
         }
 
         var ringIndex = 1;
+
+        AddNewHexTileInfo(x, ++y);
+
         while (index1d < count - 1)
         {
             for (int k = 0; k < ringIndex; k++)
@@ -59,17 +62,9 @@ public class HexGridBuilder
                 {
                     break;
                 }
-                // Move up
-                AddNewHexTileInfo(x, ++y);
-            }
-            for (int k = 0; k < ringIndex; k++)
-            {
-                if (HasAddedAllHexTileInfos())
-                {
-                    break;
-                }
                 // Move down right
                 AddNewHexTileInfo(++x, --y);
+                Debug.Log(index1d + " " + 1);
             }
             for (int k = 0; k < ringIndex; k++)
             {
@@ -79,6 +74,7 @@ public class HexGridBuilder
                 }
                 // Move down
                 AddNewHexTileInfo(x, --y);
+                Debug.Log(index1d + " " + 2);
             }
             for (int k = 0; k < ringIndex; k++)
             {
@@ -88,6 +84,7 @@ public class HexGridBuilder
                 }
                 // Move left
                 AddNewHexTileInfo(--x, y);
+                Debug.Log(index1d + " " + 3);
             }
             for (int k = 0; k < ringIndex; k++)
             {
@@ -97,6 +94,7 @@ public class HexGridBuilder
                 }
                 // Move up left
                 AddNewHexTileInfo(--x, ++y);
+                Debug.Log(index1d + " " + 4);
             }
             for (int k = 0; k < ringIndex; k++)
             {
@@ -106,6 +104,17 @@ public class HexGridBuilder
                 }
                 // Move up
                 AddNewHexTileInfo(x, ++y);
+                Debug.Log(index1d + " " + 5);
+            }
+            for (int k = 0; k < ringIndex; k++)
+            {
+                if (HasAddedAllHexTileInfos())
+                {
+                    break;
+                }
+                // Move up right
+                AddNewHexTileInfo(++x, ++y);
+                Debug.Log(index1d + " " + 6);
             }
             ringIndex++;
         }
