@@ -35,7 +35,7 @@ public class HexGridDisplayer : MonoBehaviour
         ClearHexGrid();
 
         var builder = new HexGridBuilder(
-            (int) Mathf.Sqrt(hexGrid.tiles.Count),
+            hexGrid.tiles.Count,
             hexGrid.tileSize / 2f,
             hexGrid.tilePadding
         );

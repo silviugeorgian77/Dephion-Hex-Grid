@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,14 @@ public class HexGridBuilder
     public List<HexTileInfo> HexTileInfos { get; private set; }
         = new List<HexTileInfo>();
 
+
+    private float hexRadius;
+    private float padding;
+
     public HexGridBuilder(int count, float hexRadius, float padding)
     {
+        this.hexRadius = hexRadius;
+        this.padding = padding;
         GenerateHexGrid(count, hexRadius, padding);
     }
 
@@ -21,25 +28,106 @@ public class HexGridBuilder
     {
         HexTileInfos.Clear();
 
-        HexTileInfo hexTileInfo;
-
-        int mapSize = Mathf.Max(count, count);
-
-        for (int q = -mapSize; q <= mapSize; q++)
+        if (count <= 0)
         {
-            int r1 = Mathf.Max(-mapSize, -q - mapSize);
-            int r2 = Mathf.Min(mapSize, -q + mapSize);
-            for (int r = r1; r <= r2; r++)
+            return;
+        }
+
+        var x = 0;
+        var y = 0;
+        var index1d = 0;
+
+        var hexTileInfo = CreateHexTileInfo(x, y, index1d);
+        HexTileInfos.Add(hexTileInfo);
+
+        if (count == 1)
+        {
+            return;
+        }
+
+        var ringIndex = 1;
+        while (index1d < count - 1)
+        {
+            for (int k = 0; k < ringIndex; k++)
             {
-                hexTileInfo = new HexTileInfo();
-                hexTileInfo.position = new Vector3(
-                    (hexRadius + padding) * 3.0f / 2.0f * q,
-                    0,
-                    (hexRadius + padding) * Mathf.Sqrt(3.0f) * (r + q / 2.0f)
-                );
-                hexTileInfo.index = new Vector3(q, r, -q - r);
+                if (index1d >= count - 1)
+                {
+                    break;
+                }
+                // Move up
+                index1d++;
+                hexTileInfo = CreateHexTileInfo(x, ++y, index1d);
                 HexTileInfos.Add(hexTileInfo);
             }
+            for (int k = 0; k < ringIndex; k++)
+            {
+                if (index1d >= count - 1)
+                {
+                    break;
+                }
+                // Move down right
+                index1d++;
+                hexTileInfo = CreateHexTileInfo(++x, --y, index1d);
+                HexTileInfos.Add(hexTileInfo);
+            }
+            for (int k = 0; k < ringIndex; k++)
+            {
+                if (index1d >= count - 1)
+                {
+                    break;
+                }
+                // Move down
+                index1d++;
+                hexTileInfo = CreateHexTileInfo(x, --y, index1d);
+                HexTileInfos.Add(hexTileInfo);
+            }
+            for (int k = 0; k < ringIndex; k++)
+            {
+                if (index1d >= count - 1)
+                {
+                    break;
+                }
+                // Move left
+                index1d++;
+                hexTileInfo = CreateHexTileInfo(--x, y, index1d);
+                HexTileInfos.Add(hexTileInfo);
+            }
+            for (int k = 0; k < ringIndex; k++)
+            {
+                if (index1d >= count - 1)
+                {
+                    break;
+                }
+                // Move up left
+                index1d++;
+                hexTileInfo = CreateHexTileInfo(--x, ++y, index1d);
+                HexTileInfos.Add(hexTileInfo);
+            }
+            for (int k = 0; k < ringIndex; k++)
+            {
+                if (index1d >= count - 1)
+                {
+                    break;
+                }
+                // Move up
+                index1d++;
+                hexTileInfo = CreateHexTileInfo(x, ++y, index1d);
+                HexTileInfos.Add(hexTileInfo);
+            }
+            ringIndex++;
         }
+    }
+
+    private HexTileInfo CreateHexTileInfo(int x, int y, int index1d)
+    {
+        var hexTileInfo = new HexTileInfo();
+        hexTileInfo.index1d = index1d;
+        hexTileInfo.index2d = new Vector2(x, y);
+        hexTileInfo.position = new Vector3(
+            (hexRadius + padding) * 3f / 2f * x,
+            0,
+            (hexRadius + padding) * Mathf.Sqrt(3f) * (y + x / 2f)
+        );
+        return hexTileInfo;
     }
 }

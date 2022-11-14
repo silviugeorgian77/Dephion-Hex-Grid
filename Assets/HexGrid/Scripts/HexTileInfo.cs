@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class HexTileInfo
 {
-    public Vector3 index;
+    public int index1d;
+    public Vector2 index2d;
     public Vector3 position;
 }

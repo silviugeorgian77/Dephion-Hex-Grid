@@ -77,7 +77,7 @@ public class HexTileItem : MonoBehaviour
         {
             onClickAction?.Invoke(this);
         };
-        debugIndexText.text = hexTileInfo.index.ToString();
+        debugIndexText.text = hexTileInfo.index1d.ToString();
     }
 
     private void ChangeScale()
