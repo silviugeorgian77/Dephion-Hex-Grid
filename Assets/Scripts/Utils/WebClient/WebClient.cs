@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class WebClient : MonoBehaviour
+public class WebClient
 {
     private readonly ISerializationOption serializationOption;
 
