@@ -27,6 +27,8 @@ public class HexTileItem : MonoBehaviour
 
     private Color defaultColor;
     private Color selectedColor;
+    private Color activeColor;
+    private float activeColorTimeS;
     private float size;
     private float initY;
     private float initRotationY;
@@ -43,6 +45,7 @@ public class HexTileItem : MonoBehaviour
     private const float MIN_ALPHA = 0f;
     private const float MAX_ALPHA = 0f;
     private const float FADE_IN_DURATION = .2f;
+    private const float COLOR_CHANGE_DURATION = 1f;
 
     private void Awake()
     {
@@ -63,6 +66,7 @@ public class HexTileItem : MonoBehaviour
         HexTileInfo = hexTileInfo;
         this.defaultColor = defaultColor;
         selectedColor = ColorUtils.GetColorFromHex(hexTile.clickedColor);
+        activeColor = defaultColor;
         this.size = size;
         transform.localPosition = hexTileInfo.position;
         initY = transform.localPosition.y;
@@ -139,7 +143,8 @@ public class HexTileItem : MonoBehaviour
             }
         );
         Spin();
-        ChangeColor(selectedColor);
+        activeColor = selectedColor;
+        activeColorTimeS = 0;
     }
 
     private void FloatDown()
@@ -195,6 +200,21 @@ public class HexTileItem : MonoBehaviour
             initRotationY,
             DESELECT_ROTATION_DURATION
         );
-        ChangeColor(defaultColor);
+        activeColor = defaultColor;
+        activeColorTimeS = 0;
+    }
+
+    private void Update()
+    {
+        if (activeColorTimeS < COLOR_CHANGE_DURATION)
+        {
+            activeColorTimeS += Time.deltaTime;
+            var color = Color.Lerp(
+                meshRenderer.material.color,
+                activeColor,
+                activeColorTimeS / COLOR_CHANGE_DURATION
+            );
+            ChangeColor(color);
+        }
     }
 }

@@ -84,12 +84,10 @@ public class HexGridDisplayer : MonoBehaviour
 
     private void OnHexTileClicked(HexTileItem hexTileItem)
     {
-        Debug.Log("OnHexTileClicked");
         foreach (var currentHexTileItem in hexTileItems)
         {
             if (currentHexTileItem == hexTileItem)
             {
-                Debug.Log(currentHexTileItem.HexTileInfo.position);
                 currentHexTileItem.ToggleSelected();
             }
             else

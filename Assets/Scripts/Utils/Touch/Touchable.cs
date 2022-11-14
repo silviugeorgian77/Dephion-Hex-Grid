@@ -13,6 +13,7 @@ public class Touchable : MonoBehaviour
     public bool inputEnabled = true;
     public bool autoComputeMouseWorldPosition = false;
     public bool requireClickInside = true;
+    public bool block3dRaycasts = true;
 
     public bool Clicked { get; private set; } = false;
     public bool Hovering { get; private set; } = false;
@@ -377,26 +378,47 @@ public class Touchable : MonoBehaviour
         //Raycast from camera through screen point to hitpoint
         Ray mouseRay = referenceCamera.ScreenPointToRay(Input.mousePosition);
 
-        var mouseHits
-            = Physics.RaycastAll(mouseRay, referenceCamera.farClipPlane);
-
-        foreach (var mouseHit in mouseHits)
+        if (block3dRaycasts)
         {
-            if (mouseHit.collider == objCollider)
+            RaycastHit mouseHit;
+            var didHit = Physics.Raycast(
+                mouseRay,
+                out mouseHit,
+                referenceCamera.farClipPlane
+            );
+            if (didHit && mouseHit.collider == objCollider)
             {
-                //Convert mouse position
-                Vector3 mousePoint = Input.mousePosition;
+                return RaycastHitToWorldPoint(mouseHit);
+            }
+        }
+        else
+        {
+            var mouseHits
+                = Physics.RaycastAll(mouseRay, referenceCamera.farClipPlane);
 
-                mousePoint.z
-                    = referenceCamera
-                        .transform
-                        .InverseTransformPoint(mouseHit.point)
-                        .z;
-
-                return referenceCamera.ScreenToWorldPoint(mousePoint);
+            foreach (var mouseHit in mouseHits)
+            {
+                if (mouseHit.collider == objCollider)
+                {
+                    //Convert mouse position
+                    return RaycastHitToWorldPoint(mouseHit);
+                }
             }
         }
 
         return Vector3.positiveInfinity;
+    }
+
+    private Vector3 RaycastHitToWorldPoint(RaycastHit raycastHit)
+    {
+        Vector3 mousePoint = Input.mousePosition;
+
+        mousePoint.z
+            = referenceCamera
+                .transform
+                .InverseTransformPoint(raycastHit.point)
+                .z;
+
+        return referenceCamera.ScreenToWorldPoint(mousePoint);
     }
 }
