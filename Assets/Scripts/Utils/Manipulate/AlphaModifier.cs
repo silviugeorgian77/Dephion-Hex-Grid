@@ -3,7 +3,6 @@ using TMPro;
 
 public class AlphaModifier : MonoBehaviour
 {
-    private bool awakeCalled = false;
     public SpriteRenderer spriteRenderer;
     public MeshRenderer meshRenderer;
     public TextMesh textMesh;
