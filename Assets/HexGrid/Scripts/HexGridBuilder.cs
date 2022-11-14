@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+// References:
+// https://stackoverflow.com/questions/2142431/algorithm-for-creating-cells-by-spiral-on-the-hexagonal-field
+// https://github.com/Amaranthos/UnityHexGrid/blob/master/HexGrid/Assets/Grid.cs
+
 public class HexGridBuilder
 {
-    // https://github.com/Amaranthos/UnityHexGrid/blob/master/HexGrid/Assets/Grid.cs
     public List<HexTileInfo> HexTileInfos { get; private set; }
         = new List<HexTileInfo>();
 
