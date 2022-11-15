@@ -22,6 +22,8 @@ public class WebClient
         {
             using var www = UnityWebRequest.Get(url);
 
+            www.timeout = 10;
+
             www.SetRequestHeader(
                 "Content-Type",
                 serializationOption.ContentType
