@@ -26,7 +26,7 @@ public class HexGridBuilder
     private int count;
     private float hexRadius;
     private float padding;
-    private int index1d;
+    private int index1d = -1;
 
     public HexGridBuilder(int count, float hexRadius, float padding)
     {
@@ -51,8 +51,7 @@ public class HexGridBuilder
         var x = 0;
         var y = 0;
 
-        var hexTileInfo = CreateHexTileInfo(x, y, index1d);
-        HexTileInfos.Add(hexTileInfo);
+        AddNewHexTileInfo(++x, --y);
 
         if (count == 1)
         {
