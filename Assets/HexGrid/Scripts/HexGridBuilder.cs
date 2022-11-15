@@ -51,7 +51,7 @@ public class HexGridBuilder
         var x = 0;
         var y = 0;
 
-        AddNewHexTileInfo(++x, --y);
+        AddNewHexTileInfo(x, y);
 
         if (count == 1)
         {
