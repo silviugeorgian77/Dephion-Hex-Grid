@@ -4,10 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-// References:
-// https://stackoverflow.com/questions/2142431/algorithm-for-creating-cells-by-spiral-on-the-hexagonal-field
-// https://github.com/Amaranthos/UnityHexGrid/blob/master/HexGrid/Assets/Grid.cs
-
+/// <summary>
+/// Builds a hex grid starting from the center, then going in spiral clockwise.
+/// The spiral starts with the most top center point of the current ring.
+///
+/// To achieve this, after placing the first tile, we go up a position,
+/// then we place ringIndex * tiles per each hex edge, then we keep turning
+/// right until the current ring is completed. Then we go up a position, and
+/// repeat the whole process, until our tile count has been obtained.
+/// 
+/// References:
+/// https://stackoverflow.com/questions/2142431/algorithm-for-creating-cells-by-spiral-on-the-hexagonal-field
+/// https://github.com/Amaranthos/UnityHexGrid/blob/master/HexGrid/Assets/Grid.cs
+/// </summary>
 public class HexGridBuilder
 {
     public List<HexTileInfo> HexTileInfos { get; private set; }
@@ -52,10 +61,9 @@ public class HexGridBuilder
 
         var ringIndex = 1;
 
-        AddNewHexTileInfo(x, ++y);
-
         while (index1d < count - 1)
         {
+            y++;
             for (int k = 0; k < ringIndex; k++)
             {
                 if (HasAddedAllHexTileInfos())
@@ -64,7 +72,6 @@ public class HexGridBuilder
                 }
                 // Move down right
                 AddNewHexTileInfo(++x, --y);
-                Debug.Log(index1d + " " + 1);
             }
             for (int k = 0; k < ringIndex; k++)
             {
@@ -74,7 +81,6 @@ public class HexGridBuilder
                 }
                 // Move down
                 AddNewHexTileInfo(x, --y);
-                Debug.Log(index1d + " " + 2);
             }
             for (int k = 0; k < ringIndex; k++)
             {
@@ -84,7 +90,6 @@ public class HexGridBuilder
                 }
                 // Move left
                 AddNewHexTileInfo(--x, y);
-                Debug.Log(index1d + " " + 3);
             }
             for (int k = 0; k < ringIndex; k++)
             {
@@ -94,7 +99,6 @@ public class HexGridBuilder
                 }
                 // Move up left
                 AddNewHexTileInfo(--x, ++y);
-                Debug.Log(index1d + " " + 4);
             }
             for (int k = 0; k < ringIndex; k++)
             {
@@ -104,7 +108,6 @@ public class HexGridBuilder
                 }
                 // Move up
                 AddNewHexTileInfo(x, ++y);
-                Debug.Log(index1d + " " + 5);
             }
             for (int k = 0; k < ringIndex; k++)
             {
@@ -113,8 +116,7 @@ public class HexGridBuilder
                     break;
                 }
                 // Move up right
-                AddNewHexTileInfo(++x, ++y);
-                Debug.Log(index1d + " " + 6);
+                AddNewHexTileInfo(++x, y);
             }
             ringIndex++;
         }

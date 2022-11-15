@@ -28,10 +28,6 @@ public class HexGridDisplayer : MonoBehaviour
         defaultTileColor
             = ColorUtils.GetColorFromHex(hexGrid.defaultTileColor);
 
-        // For testing
-        //hexGrid.tiles.AddRange(hexGrid.tiles);
-        //hexGrid.tiles.AddRange(hexGrid.tiles);
-
         ClearHexGrid();
 
         var builder = new HexGridBuilder(
