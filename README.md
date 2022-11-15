@@ -19,6 +19,7 @@ hexagon grid
 - Responsible for providing the newest hex grid data
 - Priorities of the data:
   - Online data
+    - Timout: 10 seconds
   - Last online data
   - Data that shipped with the app
 When new online data is received, it gets cached. Next time, if no internet, the last available data is used.
