@@ -30,12 +30,12 @@ public class HexGridDisplayer : MonoBehaviour
 
         ClearHexGrid();
 
-        var builder = new HexGridBuilder(
+        var builder = new HexGridBuilder();
+        hexTileInfos = builder.GetHexTileInfos(
             hexGrid.tiles.Count,
             hexGrid.tileSize / 2f,
             hexGrid.tilePadding
         );
-        hexTileInfos = builder.HexTileInfos;
 
         CreateHexGrid();
 

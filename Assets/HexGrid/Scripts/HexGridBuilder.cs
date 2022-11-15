@@ -20,23 +20,25 @@ using UnityEngine;
 /// https://stackoverflow.com/questions/2142431/algorithm-for-creating-cells-by-spiral-on-the-hexagonal-field
 /// https://github.com/Amaranthos/UnityHexGrid/blob/master/HexGrid/Assets/Grid.cs
 /// </summary>
-public class HexGridBuilder
+public class HexGridBuilder : IHexGridBuilder
 {
-    public List<HexTileInfo> HexTileInfos { get; private set; }
-        = new List<HexTileInfo>();
-
+    private List<HexTileInfo> hexTileInfos = new List<HexTileInfo>();
 
     private int count;
     private float hexRadius;
     private float padding;
     private int index1d = -1;
 
-    public HexGridBuilder(int count, float hexRadius, float padding)
+    public List<HexTileInfo> GetHexTileInfos(
+        int count,
+        float hexRadius,
+        float padding)
     {
         this.count = count;
         this.hexRadius = hexRadius;
         this.padding = padding;
         GenerateHexGrid(count, hexRadius, padding);
+        return hexTileInfos;
     }
 
     private void GenerateHexGrid(
@@ -44,7 +46,7 @@ public class HexGridBuilder
         float hexRadius,
         float padding)
     {
-        HexTileInfos.Clear();
+        hexTileInfos.Clear();
 
         if (count <= 0)
         {
@@ -142,7 +144,7 @@ public class HexGridBuilder
     {
         index1d++;
         var hexTileInfo = CreateHexTileInfo(x, y, index1d);
-        HexTileInfos.Add(hexTileInfo);
+        hexTileInfos.Add(hexTileInfo);
     }
 
     private bool HasAddedAllHexTileInfos()
