@@ -8,10 +8,13 @@ using UnityEngine;
 /// Builds a hex grid starting from the center, then going in spiral clockwise.
 /// The spiral starts with the most top center point of the current ring.
 ///
-/// To achieve this, after placing the first tile, we go up a position,
-/// then we place ringIndex * tiles per each hex edge, then we keep turning
-/// right until the current ring is completed. Then we go up a position, and
-/// repeat the whole process, until our tile count has been obtained.
+/// To achieve this, after placing the first tile, we place one above it,
+/// then we place (ringIndex * tiles) per each hex edge, then we keep turning
+/// right until the current ring is completed.
+/// The last side has (ringIndex * tiles - 1) because we already placed the
+/// first tile, which is the same as the last tile.
+/// After a ring finishes, we move the current position to the right once,
+/// so that we can reiterate the steps above.
 /// 
 /// References:
 /// https://stackoverflow.com/questions/2142431/algorithm-for-creating-cells-by-spiral-on-the-hexagonal-field
@@ -62,7 +65,7 @@ public class HexGridBuilder
 
         while (index1d < count - 1)
         {
-            y++;
+            AddNewHexTileInfo(x, ++y);
             for (int k = 0; k < ringIndex; k++)
             {
                 if (HasAddedAllHexTileInfos())
@@ -108,7 +111,7 @@ public class HexGridBuilder
                 // Move up
                 AddNewHexTileInfo(x, ++y);
             }
-            for (int k = 0; k < ringIndex; k++)
+            for (int k = 0; k < ringIndex - 1; k++)
             {
                 if (HasAddedAllHexTileInfos())
                 {
@@ -117,6 +120,7 @@ public class HexGridBuilder
                 // Move up right
                 AddNewHexTileInfo(++x, y);
             }
+            x++;
             ringIndex++;
         }
     }
