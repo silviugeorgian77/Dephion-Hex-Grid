@@ -17,9 +17,6 @@ public class HexTileItem : MonoBehaviour
     private Rotatable rotatable;
 
     [SerializeField]
-    private AlphaModifier alphaModifier;
-
-    [SerializeField]
     private TMP_Text debugIndexText;
 
     public HexTile HexTile { get; private set; }
@@ -43,9 +40,6 @@ public class HexTileItem : MonoBehaviour
     private const float SELECTED_MOVE_DURATION = 1f;
     private const float DESELECT_ROTATION_DURATION = .5f;
     private const float SELECTED_ROTATION_DURATION = 4f;
-    private const float MIN_ALPHA = 0f;
-    private const float MAX_ALPHA = 0f;
-    private const float FADE_IN_DURATION = .2f;
     private const float COLOR_CHANGE_DURATION = 1f;
 
     private void Awake()
@@ -103,7 +97,6 @@ public class HexTileItem : MonoBehaviour
 
         Hide();
 
-        alphaModifier.AlphaTo(MAX_ALPHA, FADE_IN_DURATION);
         moveable.MoveY(
             initY,
             APPEAR_MOVE_DURATION,
@@ -114,7 +107,6 @@ public class HexTileItem : MonoBehaviour
 
     public void Hide()
     {
-        alphaModifier.AlphaTo(MIN_ALPHA, 0);
         moveable.MoveY(initY + APPEAR_MOVE_DELTA_Y, 0, TransformScope.LOCAL);
     }
 

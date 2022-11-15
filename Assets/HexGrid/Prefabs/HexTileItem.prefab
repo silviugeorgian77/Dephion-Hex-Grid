@@ -185,7 +185,6 @@ GameObject:
   - component: {fileID: 5465195358903603271}
   - component: {fileID: 7147704295029877081}
   - component: {fileID: 2035007656149486067}
-  - component: {fileID: 6088010247248516747}
   m_Layer: 0
   m_Name: HexTileItem
   m_TagString: Untagged
@@ -226,7 +225,6 @@ MonoBehaviour:
   touchable: {fileID: 5465195358903603271}
   moveable: {fileID: 7147704295029877081}
   rotatable: {fileID: 2035007656149486067}
-  alphaModifier: {fileID: 6088010247248516747}
   debugIndexText: {fileID: 8320525484268007897}
 --- !u!114 &5465195358903603271
 MonoBehaviour:
@@ -249,6 +247,7 @@ MonoBehaviour:
   inputEnabled: 1
   autoComputeMouseWorldPosition: 0
   requireClickInside: 1
+  block3dRaycasts: 1
   followMouse: 0
   followMouseRestriced: 0
   minXFollow: 0
@@ -281,25 +280,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   durationRotation: 0
---- !u!114 &6088010247248516747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6751918873186744935}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b97b724acb6b744ae83389ee17707e3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
-  meshRenderer: {fileID: 3247782983884483156}
-  textMesh: {fileID: 0}
-  tmpText: {fileID: 0}
-  autoAssignReferences: 0
-  executeInAlphaModifierChildren: 1
-  durationAlpha: 0
 --- !u!1001 &4238983236012521168
 PrefabInstance:
   m_ObjectHideFlags: 0
