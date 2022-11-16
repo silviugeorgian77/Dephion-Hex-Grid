@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 
 public class Touchable : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class Touchable : MonoBehaviour
     public bool autoComputeMouseWorldPosition = false;
     public bool requireClickInside = true;
     public bool block3dRaycasts = true;
+    public bool ignoreOtherBlocking3dRaycasts = false;
 
     public bool Clicked { get; private set; } = false;
     public bool Hovering { get; private set; } = false;
@@ -375,34 +378,35 @@ public class Touchable : MonoBehaviour
 
     private Vector3 GetMouseWorldPosition3D()
     {
-        //Raycast from camera through screen point to hitpoint
         Ray mouseRay = referenceCamera.ScreenPointToRay(Input.mousePosition);
 
-        if (block3dRaycasts)
+        var mouseHits
+               = Physics.RaycastAll(mouseRay, referenceCamera.farClipPlane);
+
+        var sortedMouseHits = mouseHits.ToList();
+        sortedMouseHits.Sort(
+            new RaycastHitDistanceFromCameraComparer(referenceCamera)
+        );
+
+        foreach (var mouseHit in sortedMouseHits)
         {
-            RaycastHit mouseHit;
-            var didHit = Physics.Raycast(
-                mouseRay,
-                out mouseHit,
-                referenceCamera.farClipPlane
-            );
-            if (didHit && mouseHit.collider == objCollider)
+            if (!ignoreOtherBlocking3dRaycasts)
+            {
+                foreach (var touchable in TouchUtils.AllTouchables)
+                {
+                    if (mouseHit.collider == touchable.objCollider
+                        && touchable.objCollider != objCollider)
+                    {
+                        if (touchable.block3dRaycasts)
+                        {
+                            return Vector3.positiveInfinity;
+                        }
+                    }
+                }
+            }
+            if (mouseHit.collider == objCollider)
             {
                 return RaycastHitToWorldPoint(mouseHit);
-            }
-        }
-        else
-        {
-            var mouseHits
-                = Physics.RaycastAll(mouseRay, referenceCamera.farClipPlane);
-
-            foreach (var mouseHit in mouseHits)
-            {
-                if (mouseHit.collider == objCollider)
-                {
-                    //Convert mouse position
-                    return RaycastHitToWorldPoint(mouseHit);
-                }
             }
         }
 
@@ -420,5 +424,28 @@ public class Touchable : MonoBehaviour
                 .z;
 
         return referenceCamera.ScreenToWorldPoint(mousePoint);
+    }
+
+    private class RaycastHitDistanceFromCameraComparer : IComparer<RaycastHit>
+    {
+        private Camera referenceCamera;
+
+        public RaycastHitDistanceFromCameraComparer(Camera referenceCamera)
+        {
+            this.referenceCamera = referenceCamera;
+        }
+
+        public int Compare(RaycastHit x, RaycastHit y)
+        {
+            var distanceFromCamX = Vector3.Distance(
+                x.point,
+                referenceCamera.transform.position
+            );
+            var distanceFromCamY = Vector3.Distance(
+                y.point,
+                referenceCamera.transform.position
+            );
+            return distanceFromCamX.CompareTo(distanceFromCamY);
+        }
     }
 }
